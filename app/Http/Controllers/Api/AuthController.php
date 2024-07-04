@@ -113,6 +113,34 @@ class AuthController extends Controller
 
 
       }
+/**
+ * @param NA
+
+ */
+
+      public function userProfile(){
+        try{
+
+          //dd(Auth::user());
+          $user = Auth::user();
+          if($user){
+            return ResponseHelper::success(message:'user profile has been fetched successfully',data:$user, statusCode:200);
+          }
+          else{
+            return ResponseHelper::error(message:'unable to fetch user profile', statusCode:400);
+            }
+
+
+        }
+        catch(\Exception $e){
+          //return $e->getMessage();
+         Log::error('unable to fetch user profile:' . $e->getMessage() .' -Line no. ' .$e->getLine());
+          return  ResponseHelper::error(message:'unable to fetch user Profile! Please try again' .$e->getMessage() , statusCode:500);
+  
+        }
+     
+         
+      }
     /**
      * Display the specified resource.
      */

@@ -138,9 +138,33 @@ class AuthController extends Controller
           return  ResponseHelper::error(message:'unable to fetch user Profile! Please try again' .$e->getMessage() , statusCode:500);
   
         }
-     
-         
-      }
+       }
+
+     // logout 
+       public function userLogout(){
+        try{
+
+          //dd(Auth::user());
+          $user = Auth::user();
+          if($user){
+            $user->currentAccessToken()->delete();
+            return ResponseHelper::success(message:'user logout successfully', statusCode:200);
+          }
+          else{
+            return ResponseHelper::error(message:'unable to logout due to invalid token', statusCode:400);
+            }
+
+
+        }
+        catch(\Exception $e){
+          //return $e->getMessage();
+         Log::error('unable to logout due to some exception:' . $e->getMessage() .' -Line no. ' .$e->getLine());
+          return  ResponseHelper::error(message:'unable to logout due to some exception:' .$e->getMessage() , statusCode:500);
+  
+        }
+        
+       }
+
     /**
      * Display the specified resource.
      */
